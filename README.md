@@ -2,64 +2,51 @@
 
 ## Aim
 
-To implement an IoT-based environmental monitoring application using Raspberry Pi and Python/MicroPython by acquiring sensor data, processing the data, and transmitting the information to an IoT platform for remote monitoring.
-
----
+To implement an IoT-based environmental monitoring application using Raspberry Pi Pico W and MicroPython by acquiring temperature and humidity data from a DHT22 sensor and displaying the measured values for monitoring.
 
 # Hardware / Software Tools Required
 
 * Raspberry Pi Pico W
 * DHT22 Temperature and Humidity Sensor
-* LED
-* 220Ω / 330Ω Resistor
 * Breadboard
 * Jumper Wires
+* USB Cable
+* PC/Laptop
 * Wokwi Online Simulator
 * MicroPython
-* Wi-Fi Network
-* IoT Cloud Platform / MQTT Broker
 
-> **Note:** Raspberry Pi Pico W is used instead of the standard Raspberry Pi Pico because the Pico W provides built-in Wi-Fi connectivity required for the IoT application.
-
----
+> **Note:** Raspberry Pi Pico W is used because it provides built-in Wi-Fi connectivity required for IoT-based applications.
 
 # Circuit Diagram
 
----
+<img width="702" height="575" alt="Screenshot 2026-09-08 142502" src="https://github.com/user-attachments/assets/228c7c34-60fd-447f-bfc0-96128f539c85" />
 
-**To upload Wokwi circuit diagram**
-
----
 
 # Circuit Connections
 
-
+| Component | Raspberry Pi Pico W |
+|-----------|----------------------|
+| DHT22 VCC | 3.3V |
+| DHT22 DATA | GPIO 21 |
+| DHT22 GND | GND |
 
 # IoT Application
 
-The application implements a **Wi-Fi-based environmental monitoring system**.
+The application implements a basic IoT-based environmental monitoring system using Raspberry Pi Pico W and a DHT22 temperature and humidity sensor.
 
-The system performs the following functions:
+The system performs the following operations:
 
 ```text
 DHT22 Sensor
       ↓
 Raspberry Pi Pico W
       ↓
-Read Temperature & Humidity
+Read Temperature and Humidity
       ↓
 Process Sensor Data
       ↓
-Wi-Fi Connection
-      ↓
-IoT Cloud / MQTT Broker
-      ↓
-Remote Monitoring
+Display Sensor Values
 ```
-
-The LED is used as a local status indicator. It turns ON when the measured temperature exceeds the predefined threshold.
-
----
 
 # Procedure
 
@@ -69,8 +56,7 @@ The LED is used as a local status indicator. It turns ON when the measured tempe
 2. Create a new project using **Raspberry Pi Pico W**.
 3. Select **MicroPython** as the programming environment.
 4. Add the following components:
-
-   * Raspberry Pi Pico W
+* Raspberry Pi Pico W
    * DHT22 sensor
    * LED
    * Resistor
@@ -111,7 +97,6 @@ The LED is used as a local status indicator. It turns ON when the measured tempe
 1. Define a temperature threshold.
 2. If the measured temperature is greater than the threshold, turn ON the LED.
 3. If the temperature is below the threshold, turn OFF the LED.
-4. Display the LED status in the Serial Monitor.
 
 ## Step 7: Send Data to IoT Platform
 
@@ -134,12 +119,38 @@ The LED is used as a local status indicator. It turns ON when the measured tempe
 ---
 
 # Program
+```
+from machine import Pin
+import dht
+import time
 
+time.sleep(0.1)
 
-# Observation
+sensor = dht.DHT22(Pin(21))
 
+while True:
+    sensor.measure()
+    temperature = sensor.temperature()
+    humidity = sensor.humidity()
+
+    print(f"Temperature = {temperature}")
+    print(f"Humidity = {humidity}")
+    print("----------------------------")
+
+    time.sleep(3)
+```
+
+# Output
+
+<img width="1920" height="1080" alt="Screenshot 2026-09-08 142520" src="https://github.com/user-attachments/assets/3be5ebec-3e68-4db8-ba23-3c80a61f7abd" />
 
 
 # Result
 
 The **IoT-based environmental monitoring application was successfully implemented using Raspberry Pi Pico W in the Wokwi simulation environment**. The DHT22 sensor was interfaced with the Raspberry Pi Pico W to acquire temperature and humidity data. The Pico W established Wi-Fi connectivity, processed the sensor readings, and provided the data for IoT-based remote monitoring. An LED was also controlled according to the predefined temperature threshold.
+
+
+
+
+
+
